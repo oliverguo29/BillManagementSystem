@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>系统登录 - Bill management syste</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+</head>
+<body class="login_bg">
+    <section class="loginBox">
+        <header class="loginHeader">
+            <h1>Bill management system</h1>
+        </header>
+        <section class="loginCont">
+			<div th:if="${ not #strings.isEmpty(msg)}" th:text="${msg}" style="color:red; margin-left: 130px">用户名错误！</div>
+            <form class="loginForm" th:action="@{/login}" th:method="post"  action="../main/index.html">
+				
+                <div class="inputbox">
+                    <label for="user" th:text="#{login.username}">Username</label>
+                    <input id="user" type="text" name="username"  required/>
+                </div>
+                <div class="inputbox">
+                    <label for="mima" th:text="#{login.password}">Password</label>
+                    <input id="mima" type="password" name="password"  required/>
+                </div>
+				<div class="subBtn">
+						<input type="checkbox"> [[#{login.remeber}]]
+                </div>
+				<br/>
+                <div class="subBtn">
+                    <input type="submit" th:value="#{login.signin}" value="Sign" />
+                    <input type="reset" th:value="#{login.reset}" value="Reset"/>
+                </div>
+				<br/>
+				<div style="margin-left: 100px;">
+                    <a th:href="@{/index.html(l='zh_CN')}" href="#">中文</a>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a th:href="@{/index.html(l='en_US')}"href="">English</a>
+                </div>
+            </form>
+        </section>
+    </section>
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+<!--common_head-->
+<head lang="en" th:replace="main/public :: #public_head">
+</head>
+<body>
+<!--common_header-->
+<header class="publicHeader" th:replace="main/public :: #public_header">
+
+</header>
+<!--common_time-->
+<section class="publicTime" th:replace="main/public ::#public_time">
+
+</section>
+<!--main content-->
+<section class="publicMian ">
+    <div class="left" th:replace="main/public :: #public_left(activeUri='provider')">
+
+    </div>
+    <div class="right">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>供应商管理页面 >> 信息查看</span>
+        </div>
+        <div class="providerView">
+            <p><strong>ProviderID：</strong><span th:text="${provider.getPid()}"></span></p>
+            <p><strong>ProviderName：</strong><span th:text="${provider.getProviderName()}"></span></p>
+            <p><strong>Contact：</strong><span th:text="${provider.getPeople() }"></span></p>
+            <p><strong>Phone：</strong><span th:text="${provider.getPhone()}"></span></p>
+            <p><strong>Fax：</strong><span th:text="${provider.getFax()}"></span></p>
+            <p><strong>Address：</strong><span th:text="${provider.getAddress()}"></span></p>
+            <p><strong>Describe：</strong><span th:text="${provider.getDescribe()}"></span></p>
+
+            <a th:href="@{/providers}">back</a>
+        </div>
+    </div>
+</section>
+<footer class="footer" th:replace="main/public :: #public_footer">
+
+</footer>
+
+</body>
+</html>

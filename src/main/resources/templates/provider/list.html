@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+
+<!--common_head-->
+<head lang="en" th:replace="main/public :: #public_head">
+</head>
+
+<body>
+<!--common_header-->
+<header class="publicHeader" th:replace="main/public :: #public_header">
+
+</header>
+
+<!--common_time-->
+<section class="publicTime" th:replace="main/public ::#public_time">
+
+</section>
+
+<!--main content-->
+<section class="publicMian ">
+    <div class="left" th:replace="main/public :: #public_left(activeUri='provider')">
+
+    </div>
+    <div class="right">
+        <div class="location">
+            <strong>your current location:</strong>
+            <span>provider management page</span>
+        </div>
+        <form id="searchForm" th:action="@{providers}" th:method="get">
+        <div class="search">
+            <span>provider name：</span>
+            <input type="text" name="providerName" th:value="${providerName}" placeholder="please input provider name"/>
+            <input type="button"onclick="$('#searchForm').submit()"  value="query"/>
+            <a th:href="@{/provider}" th:method="get" >add provider</a>
+        </div>
+        </form>
+        <!--供应商操作表格-->
+        <table class="providerTable" cellpadding="0" cellspacing="0">
+            <tr class="firstTr">
+                <th width="10%">provider Code</th>
+                <th width="20%">provider Name</th>
+                <th width="10%">Contact</th>
+                <th width="10%">phone</th>
+                <th width="10%">fax</th>
+                <th width="10%">createDate</th>
+                <th width="30%">operation</th>
+            </tr>
+            <tr th:each="p : ${providers}">
+                <td th:text="${p.getPid()}"></td>
+                <td th:text="${p.getProviderName()}"></td>
+                <td th:text="${p.getPeople()}"></td>
+                <td th:text="${p.getPhone()}"></td>
+                <td th:text="${p.getFax()}"></td>
+                <td th:text="${#dates.format(p.getCreateDate(),'MM-dd-yyyy HH:mm')}"></td>
+                <td>
+                    <a th:href="@{/provider/} + ${p.pid}" ><img th:src="@{/img/read.png}"  alt="view" title="view"/></a>
+                    <a th:href="@{/provider/} + ${p.pid}+'?type=update'" ><img th:src="@{img/xiugai.png}"  alt="edit" title="edit"/></a>
+					<a th:attr="del_uri=@{/provider/} + ${p.pid}" class="delete" ><img th:src="@{/img/schu.png}"  alt="delete" title="delete"/></a>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</section>
+
+<!--点击删除按钮后弹出的页面-->
+<div class="zhezhao"></div>
+<form method="post" id="deleteForm">
+    <input type="hidden" name="_method" value="delete">
+    <div class="remove" id="removeProv">
+       <div class="removerChid">
+           <h2>warning</h2>
+           <div class="removeMain" >
+               <p>want to delete it？</p>
+               <a href="#" id="yes">yes</a>
+               <a href="#" id="no">no</a>
+           </div>
+       </div>
+    </div>
+</form>
+
+
+<footer class="footer" th:replace="main/public :: #public_footer">
+
+</footer>
+
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}" ></script>
+<script th:src="@{/js/js.js}" ></script>
+<!--
+	<script src="js/time.js"></script>
+	-->
+</body>
+</html>

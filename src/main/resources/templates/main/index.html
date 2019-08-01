@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+
+<!--common_head-->
+<head lang="en" th:replace="main/public :: #public_head">
+</head>
+
+
+
+<body>
+<!--common_header-->
+<header class="publicHeader" th:replace="main/public :: #public_header">
+
+</header>
+
+<!--common_time-->
+<section class="publicTime" th:replace="main/public ::#public_time">
+
+</section>
+
+<!--main content-->
+<section class="publicMian">
+    <div class="left" th:replace="main/public :: #public_left ">
+
+    </div>
+    <div class="right">
+        <img class="wColck" src="../img/clock.jpg" alt=""/>
+        <div class="wFont">
+            <h2 th:text="${session.login_user}">Admin</h2>
+            <p>welcome to the best management system!</p>
+			<span id="hours"></span>
+        </div>
+    </div>
+</section>
+
+<footer class="footer" th:replace="main/public :: #public_footer">
+
+</footer>
+
+</body>
+</html>

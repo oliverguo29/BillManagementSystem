@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+<!--common_head-->
+<head lang="en" th:replace="main/public :: #public_head">
+</head>
+<body>
+<!--头部-->
+<!--common_header-->
+<header class="publicHeader" th:replace="main/public :: #public_header">
+
+</header>
+<!--common_time-->
+<section class="publicTime" th:replace="main/public ::#public_time">
+
+</section>
+<!--main content-->
+<section class="publicMian ">
+    <div class="left" th:replace="main/public :: #public_left(activeUri='provider')">
+
+    </div>
+    <div class="right">
+        <div class="location">
+            <strong>你现在所在的位置是:</strong>
+            <span>供应商管理页面 >> 供应商修改页</span>
+        </div>
+        <div class="providerAdd">
+            <form id="updateForm" th:action="@{/provider}" th:method="post">
+                <input th:type="hidden" name="_method" value="put">
+                <input th:type="hidden" name="pid" th:value="${provider.pid}">
+                <!--div的class 为error是验证错误，ok是验证成功-->
+                <div class="">
+                    <label for="providerName">providerName：</label>
+                    <input type="text" th:value="${provider.providerName}" name="providerName" id="providerName" placeholder="provider001"/>
+                    <span >*</span>
+                </div>
+                <div>
+                    <label for="people">contact：</label>
+                    <input type="text" th:value="${provider.people}" name="people" id="people" placeholder="alice"/>
+                    <span>*</span>
+
+                </div>
+                <div>
+                    <label for="phone">phone：</label>
+                    <input type="text" th:value="${provider.phone}" name="phone" id="phone" placeholder="15918230478"/>
+                    <span></span>
+                </div>
+                <div>
+                    <label for="address">address：</label>
+                    <input type="text"th:value="${provider.address}" name="address" id="address" placeholder="BeiJing"/>
+                    <span></span>
+
+                </div>
+                <div>
+                    <label for="fax">fax：</label>
+                    <input type="text"  th:value="${provider.fax}"name="fax" id="fax" placeholder="xxxxxxxxx"/>
+                    <span></span>
+
+                </div>
+                <div>
+                    <label for="describe">describe：</label>
+                    <input type="text" th:value="${provider.describe}" name="describe" id="describe" placeholder="describe"/>
+                    <span></span>
+
+                </div>
+                <div class="providerAddBtn">
+                    <!--<a href="#">保存</a>-->
+                    <!--<a href="providerList.html">返回</a>-->
+                    <!--jquery express-->
+                    <input type="button" value="save" onclick="$('#updateForm').submit()"/>
+                    <input type="button" value="back" onclick="history.back(-1)"/>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+<footer class="footer" th:replace="main/public :: #public_footer">
+
+</footer>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}" ></script>
+
+
+</body>
+</html>
