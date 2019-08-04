@@ -2,6 +2,7 @@ package com.ao.billms.controller;
 
 import com.ao.billms.dao.ProviderDao;
 import com.ao.billms.entities.Provider;
+import com.ao.billms.mapper.ProviderMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -19,15 +21,19 @@ public class ProviderController {
     @Autowired
     ProviderDao providerDao;
 
-    //show providers
-   @GetMapping("/providers")
-    public String show_list(Map<String,Object> map, @RequestParam(value="providerName",required = false)  String providerName){
-       logger.info("provider info "+providerName);
+    @Autowired
+    ProviderMapper providerMapper;
 
-       Collection<Provider> providers = providerDao.getAll(providerName);
+    //show providers search area
+   @GetMapping("/providers")
+    public String show_list(Map<String,Object> map, Provider provider){
+       logger.info("provider info "+provider);
+
+       List<Provider> providers = providerMapper.getProviders(provider);
 
        map.put("providers",providers);
-       map.put("providerName",providerName);
+       //display
+       map.put("providerName",provider.getProviderName());
 
        return "provider/list";
     }
@@ -37,7 +43,7 @@ public class ProviderController {
                             @RequestParam(value = "type", defaultValue= "view") String type,
                             Map<String,Object> map){
         logger.info(pid+"info");
-        Provider provider = providerDao.getProvider(pid);
+        Provider provider = providerMapper.getProviderById(pid);
         map.put("provider",provider);
         //if type=null--> view,else-->update
         return "provider/"+type;
@@ -48,8 +54,7 @@ public class ProviderController {
     public String update(Provider provider){
         logger.info("update"+provider.getPid());
         //insert or update
-        providerDao.save(provider);
-
+        providerMapper.updateProvider(provider);
        return "redirect:/providers";
     }
 
@@ -65,7 +70,7 @@ public class ProviderController {
     @PostMapping("/provider")
     public  String addProvider(Provider provider){
         logger.info("add provider"+provider);
-        providerDao.save(provider);
+        providerMapper.addProvider(provider);
         return "redirect:/providers";
     }
 
@@ -74,7 +79,7 @@ public class ProviderController {
     @DeleteMapping("/provider/{pid}")
     public String delete(@PathVariable("pid") Integer pid){
             logger.info("delete"+pid);
-            providerDao.delete(pid);
+            providerMapper.deleteProviderById(pid);
 
        return "redirect:/providers";
     }
