@@ -1,6 +1,6 @@
 package com.ao.billms.controller;
 
-import com.ao.billms.dao.ProviderDao;
+
 import com.ao.billms.entities.Provider;
 import com.ao.billms.mapper.ProviderMapper;
 import org.slf4j.Logger;
@@ -18,8 +18,7 @@ public class ProviderController {
 
     Logger logger = LoggerFactory.getLogger(getClass());    //log
 
-    @Autowired
-    ProviderDao providerDao;
+
 
     @Autowired
     ProviderMapper providerMapper;

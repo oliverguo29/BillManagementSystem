@@ -9,22 +9,25 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" />
 </head>
 <body>
-
 <!--header-->
 <header class="publicHeader" id="public_header">
     <h1>Bill management system</h1>
 
     <div class="publicHeaderR">
-        <p><span>下午好！</span><span style="color: #fff21b"> [[${session.login_user}]]</span> , welcome ！</p>
+        <p><span>Hello！</span><span style="color: #fff21b"> [[${session.login_user.username}]]</span> , welcome ！</p>
         <a th:href="@{/logout}" href="../main/login.html">exit</a>
     </div>
 </header>
 
 <!--time-->
 <section class="publicTime" id="public_time">
-    <span id="time">2028年1月1日 11:11  星期一</span>
-    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+    <script>
+        setInterval("document.getElementById('time').innerHTML=new Date().toLocaleString();",1000);
+    </script>
+    <span id="time"></span>
+
 </section>
+
 
 <!--main-->
 <section class="publicMian ">
@@ -32,10 +35,10 @@
         <h2 class="leftH2"><span class="span1"></span>funciton <span></span></h2>
         <nav>
             <ul class="list">
-                <li th:id="${activeUri=='bill'?'active':''}"><a href="../bill/list.html">bill </a></li>
-                <li th:id="${activeUri=='provider'?'active':''}"><a th:href="@{/providers}" href="../provider/list.html">provider</a></li>
-                <li th:id="${activeUri=='user'?'active':''}"><a href="../user/list.html">user </a></li>
-                <li th:id="${activeUri=='pwd'?'active':''}"><a href="../main/password.html">change password</a></li>
+                <li th:id="${activeUri=='bill'?'active':''}"><a th:href="@{/bills}" >bill </a></li>
+                <li th:id="${activeUri=='provider'?'active':''}"><a th:href="@{/providers}" >provider</a></li>
+                <li th:id="${activeUri=='user'?'active':''}"><a th:href="@{/users}" href="../user/list.html">user </a></li>
+                <li th:id="${activeUri=='pwd'?'active':''}"><a th:href="@{/user/pwd}" href="../main/password.html">edit password</a></li>
                 <li><a th:href="@{/logout}" href="../main/login.html">log out</a></li>
             </ul>
         </nav>

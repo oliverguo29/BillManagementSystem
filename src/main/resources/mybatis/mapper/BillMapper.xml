@@ -2,15 +2,41 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mengxuegu.springboot.mapper.BillMapper">
+<mapper namespace="com.ao.billms.mapper.BillMapper">
 
-    <select id="getBillByBid" resultType="com.ao.billms.entities.Bill">
-        select * from bill where bid=#{bid}
+    <select id="getBills" resultType="com.ao.billms.entities.BillProvider">
+        select b.*, p.providerName  from bill b left join provider p on b.pid = p.pid
+        where 1=1
+        <if test="billName != null and billName != ''">
+            and b.bill_name like '%${billName}%'
+        </if>
+        <if test="pid != null ">
+            and b.pid = #{pid}
+        </if>
+
+        <if test="pay != null ">
+            and b.pay = #{pay}
+        </if>
     </select>
 
-    <insert id="addBill">
-        insert into bill(bill_code, bill_name, bill_com, bill_num)
-        values(#{billCode}, #{billName}, #{billCom}, #{billNum})
+    <select id="getBillByBid" resultType="com.ao.billms.entities.BillProvider">
+        select b.*, p.providerName from bill b left join provider p on b.pid = p.pid
+        where b.bid = #{bid}
+    </select>
+
+    <insert id="addBill" >
+        INSERT INTO `bill` ( `bill_code`, `bill_name`, `bill_com`, `bill_num`, `money`, `pay`, `pid`, `create_date`)
+        VALUES ( #{billCode}, #{billName}, #{billCom}, #{billNum}, #{money}, #{pay}, #{pid}, now());
     </insert>
+    
+    <update id="updateBill">
+        UPDATE `bill`
+        SET `bill_code`=#{billCode}, `bill_name`= #{billName}, `bill_com`=#{billCom}, `bill_num`=#{billNum}, `money`=#{money}, `pay`=#{pay}, `pid`=#{pid}, `create_date`='2018-11-17 15:22:03'
+        WHERE `bid`=#{bid}
+    </update>
+
+    <delete id="deteleBillByBid">
+        delete from bill where bid=#{bid}
+    </delete>
 
 </mapper>

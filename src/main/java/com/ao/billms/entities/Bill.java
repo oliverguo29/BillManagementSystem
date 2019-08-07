@@ -21,6 +21,10 @@ public class Bill {
     private Double money;
     // 供应商
     private Provider provider;
+
+    private  int pid;
+
+
     // 是否付款 0 未付款， 1已付款
     private Integer pay;
     // 创建时间
@@ -124,5 +128,14 @@ public class Bill {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
     }
 }

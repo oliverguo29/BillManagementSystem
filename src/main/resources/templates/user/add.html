@@ -1,39 +1,20 @@
 ﻿<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>梦学谷账单管理系统</title>
-    <link rel="stylesheet" href="../css/public.css"/>
-    <link rel="stylesheet" href="../css/style.css"/>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en" th:replace="main/public :: #public_head">
+
 </head>
 <body>
 <!--头部-->
-<header class="publicHeader">
-    <h1>梦学谷账单管理系统</h1>
+<header class="publicHeader" th:replace="main/public :: #public_header">
 
-    <div class="publicHeaderR">
-        <p><span>下午好！</span><span style="color: #fff21b"> Admin</span> , 欢迎你！</p>
-        <a href="../main/login.html">退出</a>
-    </div>
 </header>
 <!--时间-->
-<section class="publicTime">
-    <span id="time">2028年1月1日 11:11  星期一</span>
-    <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
+<section class="publicTime" th:replace="main/public :: #public_time">
+
 </section>
 <!--主体内容-->
 <section class="publicMian ">
-    <div class="left">
-        <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
-        <nav>
-            <ul class="list">
-                <li ><a href="../bill/list.html">账单管理</a></li>
-                <li><a href="../provider/list.html">供应商管理</a></li>
-                <li id="active"><a href="../user/list.html">用户管理</a></li>
-                <li><a href="../main/password.html">密码修改</a></li>
-                <li><a href="../main/login.html">退出系统</a></li>
-            </ul>
-        </nav>
+    <div class="left" th:replace="main/public :: #public_left(activeUri='user')">
     </div>
     <div class="right">
         <div class="location">
@@ -41,7 +22,7 @@
             <span>用户管理页面 >> 用户添加页面</span>
         </div>
         <div class="providerAdd">
-            <form action="#">
+            <form id="addForm" th:action="@{/user}" th:method="post" action="#">
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <div class="">
                     <label for="username">用户名：</label>
@@ -55,14 +36,14 @@
                 </div>
                 <div>
                     <label for="userpassword">用户密码：</label>
-                    <input type="text" name="userpassword" id="userpassword"/>
+                    <input type="text"  name="userpassword" id="userpassword"/>
                     <span>*密码长度必须大于6位小于20位</span>
 
                 </div>
                 <div>
                     <label for="password">确认密码：</label>
                     <input type="text" name="password" id="password"/>
-                    <span>*请输入确认密码</span>
+                    <span id="pwdText" >*请输入确认密码</span>
                 </div>
                 <div>
                     <label >用户性别：</label>
@@ -87,15 +68,32 @@
                 <div class="providerAddBtn">
                     <!--<a href="#">保存</a>-->
                     <!--<a href="userList.html">返回</a>-->
-                    <input type="button" value="保存" onclick="history.back(-1)"/>
+                    <input type="button" id="save" value="保存" />
                     <input type="button" value="返回" onclick="history.back(-1)"/>
                 </div>
             </form>
         </div>
-
     </div>
 </section>
-<footer class="footer"><div style="text-align:center;">	<p><a href="http://www.mengxuegu.com/" target="_blank">梦学谷 www.mengxuegu.com</a> 版权所有</p></div></footer>
+<footer class="footer" th:replace="main/public :: #public_footer">
+</footer>
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}" src="../js/jquery.js"></script>
+<script type="text/javascript">
+    $(function () {
+        //点击 确定
+        $('#save').click(function () {
+            //校验密码
+            if($("#userpassword").val().trim() == '' ||
+                $("#password").val().trim() == '' ||
+                $("#userpassword").val() != $("#password").val()) {
+                $("#pwdText").replaceWith("<span id='pwdText' style='color: red'>*请输入正确的确认密码.</span>");
+                return;
+            }
+            $("#addForm").submit();
+        });
+
+    });
+</script>
 <!--
 	<script src="js/time.js"></script>
 	-->

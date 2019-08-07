@@ -1,82 +1,57 @@
 ﻿<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>梦学谷账单管理系统</title>
-    <link rel="stylesheet" href="../css/public.css"/>
-    <link rel="stylesheet" href="../css/style.css"/>
-</head>
-<body>
-<!--头部-->
-    <header class="publicHeader">
-        <h1>梦学谷账单管理系统</h1>
-        <div class="publicHeaderR">
-            <p><span>下午好！</span><span style="color: #fff21b"> Admin</span> , 欢迎你！</p>
-            <a href="../main/login.html">退出</a>
-        </div>
-    </header>
-<!--时间-->
-    <section class="publicTime">
-        <span id="time">2028年1月1日 11:11  星期一</span>
-        <a href="#">温馨提示：为了能正常浏览，请使用高版本浏览器！（IE10+）</a>
-    </section>
-<!--主体内容-->
-    <section class="publicMian ">
-        <div class="left">
-            <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
-            <nav>
-            <ul class="list">
-                <li ><a href="../bill/list.html">账单管理</a></li>
-                <li><a href="../provider/list.html">供应商管理</a></li>
-                <li id="active"><a href="../user/list.html">用户管理</a></li>
-                <li><a href="../main/password.html">密码修改</a></li>
-                <li><a href="../main/login.html">退出系统</a></li>
-            </ul>
-        </nav>
-        </div>
+        <html xmlns:th="http://www.thymeleaf.org">
+        <head lang="en" th:replace="main/public :: #public_head">
+
+        </head>
+        <body>
+        <!--头部-->
+        <header class="publicHeader" th:replace="main/public :: #public_header">
+
+        </header>
+        <!--时间-->
+        <section class="publicTime" th:replace="main/public :: #public_time">
+
+        </section>
+        <!--主体内容-->
+        <section class="publicMian ">
+            <div class="left" th:replace="main/public :: #public_left(activeUri='user')">
+            </div>
         <div class="right">
             <div class="location">
-                <strong>你现在所在的位置是:</strong>
-                <span>用户管理页面</span>
+                <strong>your current location:</strong>
+                <span>user management page</span>
             </div>
+            <form id="searchForm" th:action="@{/users}" th:method="get" >
             <div class="search">
-                <span>用户名：</span>
-                <input type="text" placeholder="请输入用户名"/>
-                <input type="button" value="查询"/>
-                <a href="add.html">添加用户</a>
+                <span>username：</span>
+                <input type="text" th:value="${username}" name="username" placeholder="please input username"/>
+                <input type="button" value="query" onclick="$('#searchForm').submit()"/>
+                <a th:href="@{/user}" >add user</a>
             </div>
+            </form>
+
             <!--用户-->
             <table class="providerTable" cellpadding="0" cellspacing="0">
                 <tr class="firstTr">
-                    <th width="10%">用户名</th>
-                    <th width="20%">真实姓名</th>
-                    <th width="10%">性别</th>
-                    <th width="10%">出生日期</th>
-                    <th width="10%">用户类型</th>
-                    <th width="30%">操作</th>
+                    <th width="10%">user name</th>
+                    <th width="20%">real name</th>
+                    <th width="10%">gender</th>
+                    <th width="10%">birthday</th>
+                    <th width="10%">user type</th>
+                    <th width="30%">operation</th>
                 </tr>
-                <tr>
-                    <td>hanlu</td>
-                    <td>韩露</td>
-                    <td>女</td>
-                    <td>1989/10/10</td>
-                    <td>经理</td>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.username}"></td>
+                    <td th:text="${u.realName}"></td>
+                    <!--性别：1 女  2 男-->
+                    <td th:text="${u.gender == 1 ? 'female' : 'male'}"></td>
+                    <td th:text="${#dates.format(u.birthday, 'yyyy-MM-dd')}">1989/10/10</td>
+                    <!--1管理员  2经理  3普通用户-->
+                    <td th:text="${u.userType==1 ? 'admin' : (u.userType==2 ? 'manager' : 'user') }"></td>
                     <td>
-                        <a href="view.html"><img src="../img/read.png" alt="查看" title="查看"/></a>
-                        <a href="update.html"><img src="../img/xiugai.png" alt="修改" title="修改"/></a>
-                        <a href="#" class="delete"><img src="../img/schu.png" alt="删除" title="删除"/></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>PRO-CODE—001</td>
-                    <td>测试供应商001</td>
-                    <td>男</td>
-                    <td>1989/10/10</td>
-                    <td>管理员</td>
-                    <td>
-                        <a href="view.html"><img src="../img/read.png" alt="查看" title="查看"/></a>
-                        <a href="update.html"><img src="../img/xiugai.png" alt="修改" title="修改"/></a>
-                        <a href="#" class="delete" ><img src="../img/schu.png" alt="删除" title="删除"/></a>
+                        <a th:href="@{/user/} + ${u.id}" href="view.html"><img th:src="@{/img/read.png}" src="../img/read.png" alt="查看" title="view"/></a>
+                        <a th:href="@{/user/} + ${u.id} +'?type=update'" href="update.html"><img th:src="@{/img/xiugai.png}"  src="../img/xiugai.png" alt="修改" title="edit"/></a>
+                        <a th:attr="del_uri=@{/user/}+${u.id}"  href="#" class="delete" ><img th:src="@{/img/schu.png}"  src="../img/schu.png" alt="删除" title="delete"/></a>
                     </td>
                 </tr>
             </table>
@@ -100,10 +75,12 @@
 		</div>
 	</form>
 
-<footer class="footer"><div style="text-align:center;">	<p><a href="http://www.mengxuegu.com/" target="_blank">梦学谷 www.mengxuegu.com</a> 版权所有</p></div></footer>
+<footer class="footer" th:replace="main/public :: #public_footer">
+</footer>
 
-<script src="../js/jquery.js"></script>
-<script src="../js/js.js"></script>
+
+<script th:src="@{/webjars/jquery/3.3.1/jquery.js}" src="../js/jquery.js"></script>
+<script th:src="@{/js/js.js}" src="../js/js.js"></script>
 <!--
 	<script src="js/time.js"></script>
 	-->
